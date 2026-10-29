@@ -1,7 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:momo_wallet/screens/wallet_screen.dart';
+import 'package:momo_wallet/auth_gate.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MoMoApp());
 }
 
@@ -17,7 +20,7 @@ class MoMoApp extends StatelessWidget {
         colorSchemeSeed: Colors.green,
         useMaterial3: true,
       ),
-      home: const WalletScreen(),
+      home: const AuthGate(),
     );
   }
 }

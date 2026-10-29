@@ -4,14 +4,14 @@ import 'package:momo_wallet/models/transaction.dart';
 void main() {
   test('Calculate balance correctly from transactions', () {
     final transactions = [
-      Transaction(
+      MoMoTransaction(
         id: '1',
         description: 'Initial balance',
         amount: 10000,
         type: TransactionType.inMoney,
         date: DateTime.now(),
       ),
-      Transaction(
+      MoMoTransaction(
         id: '2',
         description: 'Sent to 0788123456',
         amount: 2000,
@@ -25,14 +25,14 @@ void main() {
 
   test('Refuse deletion if historical balance drops below 0', () {
     final transactions = [
-      Transaction(
+      MoMoTransaction(
         id: '1',
         description: 'Deposit 1000',
         amount: 1000,
         type: TransactionType.inMoney,
         date: DateTime.now(),
       ),
-      Transaction(
+      MoMoTransaction(
         id: '2',
         description: 'Spent 800',
         amount: 800,

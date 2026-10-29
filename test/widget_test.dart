@@ -1,13 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:momo_wallet/main.dart';
+import 'package:momo_wallet/login_screen.dart';
 
 void main() {
-  testWidgets('MoMo Wallet initial render test', (WidgetTester tester) async {
-    await tester.pumpWidget(const MoMoApp());
+  testWidgets('LoginScreen renders correctly', (WidgetTester tester) async {
+    await tester.pumpWidget(const MaterialApp(home: LoginScreen()));
 
     expect(find.text('MoMo Wallet'), findsOneWidget);
-    expect(find.text('9,000 RWF'), findsOneWidget);
-    expect(find.text('Initial balance'), findsOneWidget);
-    expect(find.text('Airtime purchase'), findsOneWidget);
+    expect(find.text('Log In'), findsOneWidget);
   });
 }

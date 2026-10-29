@@ -1,22 +1,42 @@
 enum TransactionType { inMoney, outMoney }
 
-class Transaction {
+class MoMoTransaction {
   final String id;
   final String description;
   final int amount;
   final TransactionType type;
   final DateTime date;
 
-  Transaction({
+  MoMoTransaction({
     required this.id,
     required this.description,
     required this.amount,
     required this.type,
     required this.date,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'description': description,
+      'amount': amount,
+      'type': type == TransactionType.inMoney ? 'in' : 'out',
+      'date': date.toIso8601String(),
+    };
+  }
+
+  factory MoMoTransaction.fromMap(Map<String, dynamic> map) {
+    return MoMoTransaction(
+      id: map['id'] ?? '',
+      description: map['description'] ?? '',
+      amount: (map['amount'] as num?)?.toInt() ?? 0,
+      type: map['type'] == 'in' ? TransactionType.inMoney : TransactionType.outMoney,
+      date: map['date'] != null ? DateTime.parse(map['date']) : DateTime.now(),
+    );
+  }
 }
 
-int calculateBalance(List<Transaction> transactions) {
+int calculateBalance(List<MoMoTransaction> transactions) {
   int balance = 0;
   for (final tx in transactions) {
     if (tx.type == TransactionType.inMoney) {
@@ -28,11 +48,9 @@ int calculateBalance(List<Transaction> transactions) {
   return balance;
 }
 
-bool canDeleteTransaction(List<Transaction> transactions, Transaction txToDelete) {
-  // Simulate remaining list
+bool canDeleteTransaction(List<MoMoTransaction> transactions, MoMoTransaction txToDelete) {
   final remaining = transactions.where((t) => t.id != txToDelete.id).toList();
 
-  // Verify that balance never drops below 0 at any historical point
   int runningBalance = 0;
   for (final tx in remaining) {
     if (tx.type == TransactionType.inMoney) {
