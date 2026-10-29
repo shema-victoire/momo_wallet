@@ -9,6 +9,14 @@ A fully-featured mobile wallet application built with Flutter, Firebase Authenti
 
 ---
 
+## 📸 App Screenshots
+
+| Wallet Dashboard | Send Money | Cash Out Preview | Login / Sign Up |
+| :---: | :---: | :---: | :---: |
+| ![Wallet Dashboard](assets/screenshots/wallet_home.png) | ![Send Money](assets/screenshots/send_money.png) | ![Cash Out](assets/screenshots/cash_out.png) | ![Login Screen](assets/screenshots/login.png) |
+
+---
+
 ## ✨ Features & Requirements Implemented
 1. **Cloud Authentication & Backend (Session 6):**
    - Secure Email/Password authentication (`FirebaseAuth`) with account creation, login, and logout.
