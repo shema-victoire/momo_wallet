@@ -11,10 +11,17 @@ class WalletState extends ChangeNotifier {
   bool _loading = true;
   String? _error;
   String _filter = 'ALL'; // 'ALL', 'IN', 'OUT'
+  bool _isSeeding = false;
 
   WalletState(this._repo) {
     _subscription = _repo.watchAll().listen(
-      (list) {
+      (list) async {
+        if (list.isEmpty && !_isSeeding) {
+          _isSeeding = true;
+          await _seedInitialData();
+          _isSeeding = false;
+          return;
+        }
         _transactions = list;
         _loading = false;
         _error = null;
@@ -26,6 +33,28 @@ class WalletState extends ChangeNotifier {
         notifyListeners();
       },
     );
+  }
+
+  Future<void> _seedInitialData() async {
+    final initialTxs = [
+      MoMoTransaction(
+        id: '1',
+        description: 'Opening balance',
+        amount: 10000,
+        type: TransactionType.inMoney,
+        date: DateTime.now().subtract(const Duration(days: 2)),
+      ),
+      MoMoTransaction(
+        id: '2',
+        description: 'Airtime purchase',
+        amount: 1000,
+        type: TransactionType.outMoney,
+        date: DateTime.now().subtract(const Duration(days: 1)),
+      ),
+    ];
+    for (final tx in initialTxs) {
+      await _repo.add(tx);
+    }
   }
 
   List<MoMoTransaction> get transactions => _transactions;
