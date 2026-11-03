@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:momo_wallet/repositories/txn_repository.dart';
 import 'package:momo_wallet/screens/wallet_screen.dart';
 import 'package:momo_wallet/login_screen.dart';
+import 'package:momo_wallet/state/wallet_state.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
@@ -18,7 +21,11 @@ class AuthGate extends StatelessWidget {
         }
 
         if (snapshot.hasData) {
-          return const WalletScreen();
+          final user = snapshot.data!;
+          return ChangeNotifierProvider<WalletState>(
+            create: (_) => WalletState(TxnRepository(user.uid)),
+            child: const WalletScreen(),
+          );
         }
 
         return const LoginScreen();
